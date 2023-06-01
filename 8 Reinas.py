@@ -11,6 +11,7 @@ for i in range(8):
         tablero_str += " [  ]"
 
 print(tablero_str)
+
 while True:
     columna = input("Ingrese la letra de columna: ")
     if columna.strip():
