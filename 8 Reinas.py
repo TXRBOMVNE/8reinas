@@ -37,17 +37,20 @@ while opción != 2:
             for l in range(8):
                 casillas_disponibles[fila][l] = True
                 casillas_disponibles[l][columna] = True
+                for k in range(8):
+                    if l - k == fila - columna or l + k == fila + columna:
+                        casillas_disponibles[l][k] = True
+
                 
             print(casillas_disponibles)
-            tablero_str = "\n    A    B    C    D    E    F    G    H"
+            tablero_str = "\n    1    2    3    4    5    6    7    8"
             for m in range(8):
                 tablero_str += "\n" + str(m + 1) + " "
                 índice = 0
                 for n in casillas[m]:
                     if n:
                         tablero_str += " [♕ ]"
-                    elif casillas_disponibles[m][casillas[m].index(n)] or casillas_disponibles[casillas[m].index(n)][índice]:
-                        print(casillas[m].index(n),índice)
+                    elif casillas_disponibles[m][índice]:
                         tablero_str += " [ X]"
                     else:
                         tablero_str += " [  ]"
