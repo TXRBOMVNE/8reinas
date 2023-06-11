@@ -72,7 +72,7 @@ while opción != 2:
                         tablero_str += " [♛ ]"
                     # elif casillas_disponibles[m][n]:
                     #     tablero_str += " [♙ ]"
-                    # else:
+                    else:
                         tablero_str += " [  ]"
                 tablero_str += "  " + str(m + 1)
             tablero_str += "\n    A    B    C    D    E    F    G    H\n"
