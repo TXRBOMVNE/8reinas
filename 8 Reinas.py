@@ -35,19 +35,19 @@ def crear_tablero():
                 tablero_str += " [  ]"
         tablero_str += "  " + str(m + 1)
     tablero_str += "\n    A    B    C    D    E    F    G    H\n"
-    print(tablero_str)
+    return tablero_str
 
 
 # Concluye la partida o en su defecto sólo el intento dependiendo de las condiciones de la partida
 def concluir_intento():
     if cantidad_reinas == 8:
-        input("¡Enhorabuena, encontraste una solución!" + tablero_str + "Presiona ENTER para continuar\n")
+        input("¡Enhorabuena, encontraste una solución!" + crear_tablero() + "Presiona ENTER para continuar\n")
     elif cantidad_intentos == 0:
-        input("¡Se te acabaron los intentos!. Este es tu resultado:" + tablero_str + "Cantidad de reinas posicionadas: " + str(cantidad_reinas) + "\nPresiona ENTER para continuar\n")
+        input("¡Se te acabaron los intentos!. Este es tu resultado:" + crear_tablero() + "Cantidad de reinas posicionadas: " + str(cantidad_reinas) + "\nPresiona ENTER para continuar\n")
     elif cantidad_casillas_disponibles == 0:
         input(
             "¡Las reinas están amenazando todas las casillas y no encontraste una solución!. Este es tu resultado:"
-            + tablero_str
+            + crear_tablero()
             + "Cantidad de reinas posicionadas: "
             + str(cantidad_reinas)
             + "\nPresiona ENTER para continuar\n"
@@ -87,11 +87,14 @@ while opción != 2:
                 cantidad_intentos -= 1
                 if cantidad_intentos == 0:
                     print("La casilla indicada está amenazada por otra pieza y ya no quedan intentos.")
+                    concluir_intento()
                     break
                 elif cantidad_intentos == 1:
                     print("La casilla indicada está amenazada por otra pieza. Queda 1 intento.")
+                    concluir_intento()
                 else:
                     print("La casilla indicada está amenazada por otra pieza. Quedan " + str(cantidad_intentos) + " intentos.")
+                    concluir_intento()
                 continue
             # Si pasa todas las verificaciones, la casilla señalada se convierte a "True", lo que indica que es una casilla ocupada por una pieza.
             casillas[fila][columna] = True
@@ -109,6 +112,6 @@ while opción != 2:
                     if (l - k == fila - columna or l + k == fila + columna) and not casillas_disponibles[l][k]:
                         casillas_disponibles[l][k] = True
                         cantidad_casillas_disponibles -= 1
-            crear_tablero()
+            print(crear_tablero())
             concluir_intento()
 print("¡Gracias por participar!")
