@@ -58,11 +58,11 @@ opción = 0
 while opción != 2:
     opción = int(input("¡Bienvenido a 8 Reinas!\n1.- Iniciar partida\n2.- Salir\nOpción: "))
     if opción == 1:
-        # Lista donde se almacenan las filas y columnas y cada casilla es un valor booleano, dependiendo si hay una pieza en esa casilla o no.
+        # Lista donde se almacenan las filas y columnas y cada casilla es un valor booleano, dependiendo si hay una pieza en esa casilla o no
         casillas = []
-        # Lista donde se almacenan las filas y columnas amenazadas y cada casilla es un valor booleano, dependiendo si está amenazada.
+        # Lista donde se almacenan las filas y columnas amenazadas y cada casilla es un valor booleano, dependiendo si está amenazada
         casillas_disponibles = []
-        # Cantidad de casillas no amenazadas ni ocupadas por piezas. Se le resta 1 cada vez que se marca una casilla no disponible en la lista previa.
+        # Cantidad de casillas no amenazadas ni ocupadas por piezas. Se le resta 1 cada vez que se marca una casilla no disponible en la lista previa
         cantidad_casillas_disponibles = 64
         print('Puedes digitar "TERMINAR" para finalizar la partida')
         cantidad_reinas = 0
