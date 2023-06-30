@@ -3,6 +3,7 @@ import ocho_reinas_lib as lib
 
 # Lista de las letras de las columnas con fin de asociar la letra a un índice numérico.
 letras_columnas = ["A", "B", "C", "D", "E", "F", "G", "H"]
+
 # Inicialización de las variables.
 cantidad_casillas_disponibles = 64
 cantidad_reinas = 0
