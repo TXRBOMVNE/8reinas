@@ -15,6 +15,7 @@ def tablero(casillas, casillas_disponibles):
             # Si la casilla está marcada como ocupada, concatena una casilla con una reina.
             if casillas[m][n]:
                 tablero_str += " [♛ ]"
+
             # Las próximas dos líneas de código sirven para visualizar las casillas amenazadas en la partida, marcándolas con un peón.
             # elif casillas_disponibles[m][n]:
             #     tablero_str += " [♙ ]"
