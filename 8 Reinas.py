@@ -7,7 +7,7 @@ letras_columnas = ["A", "B", "C", "D", "E", "F", "G", "H"]
 # Inicialización de las variables.
 cantidad_casillas_disponibles = 64
 cantidad_reinas = 0
-cantidad_intentos = 3
+cantidad_intentos_inicial = 3
 
 
 # Pobla las listas de casillas con filas y sus valores correspondientes, al mismo tiempo que forma e imprime el tablero vacío.
@@ -29,8 +29,8 @@ def inicializar_tablero(casillas):
 
 opción = 0
 # Bucle que da introducción al menú de opciones otorgadas por el programa.
-while opción != 2:
-    opción = input("\n¡Bienvenido a 8 Reinas!\n1.- Iniciar partida\n2.- Salir\nOpción: ")
+while opción != 3:
+    opción = input("\n¡Bienvenido a 8 Reinas!\n1.- Iniciar partida\n2.- Establecer número de intentos de la partida\n3.- Salir\nOpción: ")
     if not opción or not opción.isdigit():
         continue
     opción = int(opción)
@@ -44,15 +44,17 @@ while opción != 2:
         # Cantidad de casillas no amenazadas ni ocupadas por piezas. Se le resta 1 cada vez que se marca una casilla no disponible en la lista previa.
         cantidad_casillas_disponibles = 64
 
+        # En caso de haber iniciado una partida antes, se reestablecen los valores a los iniciales.
         cantidad_reinas = 0
-        cantidad_intentos = 3
+        cantidad_intentos = cantidad_intentos_inicial
+
         inicializar_tablero(casillas)
 
         # Registra el tiempo de inicio de la partida actual.
         tiempo_inicio = time()
 
         print('Puedes digitar "TERMINAR" para finalizar la partida')
-        print("Tienes 3 intentos para completarlo. ¡Mucha suerte!")
+        print("Tienes " + str(cantidad_intentos) + " intento(s) para completarlo. ¡Mucha suerte!")
         # Bucle que mantiene el ciclo de la partida, verificando que queden intentos, no se haya completado la partida y que queden casillas disponibles.
         while cantidad_reinas < 8 and cantidad_intentos > 0 and cantidad_casillas_disponibles > 0:
             columna_fila = input("Ingresa la columna y fila donde deseas la pieza (ej: A3): ")
@@ -119,5 +121,17 @@ while opción != 2:
             # Cierre del programa según resultados acciones realizadas por el jugador.
             print(lib.tablero(casillas, casillas_disponibles))
             lib.concluir_intento(tiempo_inicio, casillas, casillas_disponibles, cantidad_reinas, cantidad_intentos, cantidad_casillas_disponibles)
+    # Opción que permite editar la cantidad de intentos que debería tener una partida
+    if opción == 2:
+        cantidad_intentos = input("Ingresa el número de intentos que debe tener una partida. Debe ser entre 1 y 20: ")
+
+        # Bucle que verifica que el texto ingresado sea válido, un número y que no sea menor a 1 ni mayor a 20.
+        while not cantidad_intentos or not cantidad_intentos.isdigit() or int(cantidad_intentos) < 1 or int(cantidad_intentos) > 20:
+            cantidad_intentos = input("Intenta nuevamente: ")
+
+        # El texto se convierte a un número entero
+        cantidad_intentos_inicial = int(cantidad_intentos)
+        input("Cantidad de intentos modificada con éxito. Presiona ENTER para continuar.")
+
 # Mensaje de cierre del programa.
 print("¡Gracias por participar!")
