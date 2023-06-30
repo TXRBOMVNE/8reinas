@@ -1,4 +1,5 @@
-import time
+from time import time
+import ocho_reinas_lib as lib
 
 # Lista de las letras de las columnas con fin de asociar la letra a un índice numérico.
 letras_columnas = ["A", "B", "C", "D", "E", "F", "G", "H"]
@@ -9,7 +10,7 @@ cantidad_intentos = 3
 
 
 # Pobla las listas de casillas con filas y sus valores correspondientes, al mismo tiempo que forma e imprime el tablero vacío.
-def inicializar_tablero():
+def inicializar_tablero(casillas):
     tablero_str = "\n    A    B    C    D    E    F    G    H"
     for i in range(8):
         casillas.append([])
@@ -21,82 +22,41 @@ def inicializar_tablero():
             tablero_str += " [  ]"
         tablero_str += "  " + str(i + 1)
     tablero_str += "\n    A    B    C    D    E    F    G    H\n"
-    # Imprimir interfaz del tablero de las 8 reinas.
+    # Imprimir interfaz del tablero.
     print(tablero_str)
-
-
-# Forma el tablero en un string y marca las casillas ocupadas por las piezas.
-def tablero():
-    tablero_str = "\n    A    B    C    D    E    F    G    H"
-    for m in range(8):
-        tablero_str += "\n" + str(m + 1) + " "
-        for n in range(8):
-            if casillas[m][n]:
-                tablero_str += " [♛ ]"
-            # Las próximas dos líneas de código sirven para visualizar las casillas amenazadas en la partida, marcándolas con un peón.
-            # elif casillas_disponibles[m][n]:
-            #     tablero_str += " [♙ ]"
-            else:
-                tablero_str += " [  ]"
-        tablero_str += "  " + str(m + 1)
-    tablero_str += "\n    A    B    C    D    E    F    G    H\n"
-    return tablero_str
-
-
-# Verifica las condiciones de juego para concluir el intento y partida. En su defecto, no interfiere.
-def concluir_intento(tiempo_inicio):
-    tiempo_total = str(round((time.time() - tiempo_inicio) / 60, 2))
-    # Respuesta en caso de dar con algunas de las soluciones existentes dentro de las 8 reinas.
-    if cantidad_reinas == 8:
-        input("\n¡Enhorabuena, encontraste una solución!\nTe demoraste " + tiempo_total + " minutos en completarlo. " + tablero() + "Presiona ENTER para continuar\n")
-    # Respuesta en caso de fallar en todos los intentos posibles del programa.
-    # Se muestra resultado del tablero, cantidad de reinas posicionadas y duración de la partida.
-    elif cantidad_intentos == 0:
-        input(
-            "\n¡Se te acabaron los intentos!\n Este es tu resultado:"
-            + tablero()
-            + "Cantidad de reinas posicionadas: "
-            + str(cantidad_reinas)
-            + "\nTe demoraste "
-            + tiempo_total
-            + " minutos\nPresiona ENTER para continuar\n"
-        )
-    # Respuesta en caso de no presentarse más casillas disponibles en la partida del jugador.
-    # Se muestra resultado del tablero, cantidad de reinas posicionadas y duración de la partida.
-    elif cantidad_casillas_disponibles == 0:
-        input(
-            "\n¡Las reinas están amenazando todas las casillas y no encontraste una solución!. Este es tu resultado:"
-            + tablero()
-            + "Cantidad de reinas posicionadas: "
-            + str(cantidad_reinas)
-            + "Te demoraste "
-            + tiempo_total
-            + " minutos.\nPresiona ENTER para continuar\n"
-        )
 
 
 opción = 0
 # Bucle que da introducción al menú de opciones otorgadas por el programa.
 while opción != 2:
-    opción = int(input("¡Bienvenido a 8 Reinas!\n1.- Iniciar partida\n2.- Salir\nOpción: "))
+    opción = input("\n¡Bienvenido a 8 Reinas!\n1.- Iniciar partida\n2.- Salir\nOpción: ")
+    if not opción or not opción.isdigit():
+        continue
+    opción = int(opción)
     if opción == 1:
         # Lista donde se almacenan las filas y columnas y cada casilla es un valor booleano, dependiendo si hay una pieza en esa casilla o no.
         casillas = []
+
         # Lista donde se almacenan las filas y columnas amenazadas y cada casilla es un valor booleano, dependiendo si está amenazada.
         casillas_disponibles = []
+
         # Cantidad de casillas no amenazadas ni ocupadas por piezas. Se le resta 1 cada vez que se marca una casilla no disponible en la lista previa.
         cantidad_casillas_disponibles = 64
-        print('Puedes digitar "TERMINAR" para finalizar la partida')
+
         cantidad_reinas = 0
         cantidad_intentos = 3
-        inicializar_tablero()
-        tiempo_inicio = time.time()
+        inicializar_tablero(casillas)
+
+        # Registra el tiempo de inicio de la partida actual.
+        tiempo_inicio = time()
+
+        print('Puedes digitar "TERMINAR" para finalizar la partida')
         print("Tienes 3 intentos para completarlo. ¡Mucha suerte!")
         # Bucle que mantiene el ciclo de la partida, verificando que queden intentos, no se haya completado la partida y que queden casillas disponibles.
         while cantidad_reinas < 8 and cantidad_intentos > 0 and cantidad_casillas_disponibles > 0:
             columna_fila = input("Ingresa la columna y fila donde deseas la pieza (ej: A3): ")
             # Cierre del programa en caso de ingresar "TERMINAR".
-            if columna_fila == "TERMINAR":
+            if columna_fila.upper() == "TERMINAR":
                 break
 
             # Bucle que verifica que se hayan ingresado caracteres correspondientes a una fila y columna.
@@ -120,16 +80,16 @@ while opción != 2:
                 # Respuesta en caso de intentar colocar una pieza en una casilla amenazada por otra pieza y término de la partida mostrando tiempo de juego y tablero realizado.
                 if cantidad_intentos == 0:
                     print("La casilla indicada está amenazada por otra pieza y ya no quedan intentos.")
-                    concluir_intento(tiempo_inicio)
+                    lib.concluir_intento(tiempo_inicio, casillas, casillas_disponibles, cantidad_reinas, cantidad_intentos, cantidad_casillas_disponibles)
                     break
                 # Aviso de 1 intento restante.
                 elif cantidad_intentos == 1:
                     print("La casilla indicada está amenazada por otra pieza. Queda 1 intento.")
-                    concluir_intento(tiempo_inicio)
+                    lib.concluir_intento(tiempo_inicio, casillas, casillas_disponibles, cantidad_reinas, cantidad_intentos, cantidad_casillas_disponibles)
                 else:
                     # Aviso de n intentos restantes mayor a 1.
                     print("La casilla indicada está amenazada por otra pieza. Quedan " + str(cantidad_intentos) + " intentos.")
-                    concluir_intento(tiempo_inicio)
+                    lib.concluir_intento(tiempo_inicio, casillas, casillas_disponibles, cantidad_reinas, cantidad_intentos, cantidad_casillas_disponibles)
                 continue
 
             # Si pasa todas las verificaciones, la casilla señalada se convierte a "True", lo que indica que esa casilla está ocupada.
@@ -156,7 +116,7 @@ while opción != 2:
                         casillas_disponibles[l][k] = True
                         cantidad_casillas_disponibles -= 1
             # Cierre del programa según resultados acciones realizadas por el jugador.
-            print(tablero())
-            concluir_intento(tiempo_inicio)
+            print(lib.tablero(casillas, casillas_disponibles))
+            lib.concluir_intento(tiempo_inicio, casillas, casillas_disponibles, cantidad_reinas, cantidad_intentos, cantidad_casillas_disponibles)
 # Mensaje de cierre del programa.
 print("¡Gracias por participar!")
