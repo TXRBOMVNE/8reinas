@@ -25,7 +25,7 @@ def inicializar_tablero():
     print(tablero_str)
 
 
-# Forma el tablero en un string y marca las casillas ocupadas por las piezas
+# Forma el tablero en un string y marca las casillas ocupadas por las piezas.
 def tablero():
     tablero_str = "\n    A    B    C    D    E    F    G    H"
     for m in range(8):
@@ -95,6 +95,7 @@ while opción != 2:
         # Bucle que mantiene el ciclo de la partida, verificando que queden intentos, no se haya completado la partida y que queden casillas disponibles.
         while cantidad_reinas < 8 and cantidad_intentos > 0 and cantidad_casillas_disponibles > 0:
             columna_fila = input("Ingresa la columna y fila donde deseas la pieza (ej: A3): ")
+            # Cierre del programa en caso de ingresar "TERMINAR".
             if columna_fila == "TERMINAR":
                 break
 
